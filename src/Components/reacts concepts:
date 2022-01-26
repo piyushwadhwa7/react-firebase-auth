@@ -1,0 +1,12 @@
+reacts concepts:
+fuctional compomenst  / componenet based approach
+Parent-child componenet and Nested components
+props 
+Events 
+-onclick 
+-on blur 
+-on change 
+Hooks 
+-user state 
+- user effect
+-useref
