@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Gugi');
 .nav {
-     background-color: rgb(125, 125, 167);
+     background-color: rgb(46, 46, 91);
 }
 
 .mainpage {width:90%; height: 100vh; margin:auto; font-family: 'Gugi', cursive; }
@@ -13,6 +13,37 @@
 }
 
 .avatarstyle img{
-    width: 200 px; height: 200px;
+    width: 200px; height: 200px;
 
+}
+.button-style:hover {
+    background: orange;
+    text-align: center;
+    padding: 5px;
+
+}
+.card-style {
+    width: 175px;
+    min-width: max-content;
+    font-size: 12px;
+    flex: 0 0 auto;         /* ADD */
+    display: flex;          /* ADD */
+    flex-direction:column-reverse; /* ADD */
+}
+
+.navlink:hover {
+    background-color: crimson;
+}
+.pikachu-style{
+    max-width: 50px;
+    border-radius: 20%;
+
+}
+
+.avatarData {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    overflow: auto;
+    width: max-content;
 }

@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from 'prop-types';
-
-
-
-
+import Home from './Home';
+import Avatarlist from "./avatarlistt";
 
 function Header(props) {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-pink bg-dark">
+        <img className="pikachu-style" src={`images/${props.imgsrc}`} alt={props.alt}/>
         <div className="container-fluid">
           <a className="navbar-brand" href="#">{props.title}</a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,13 +16,13 @@ function Header(props) {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">Home</a>
+                <a className="nav-link active" aria-current="page" href="/Avatarlistt">Home</a>
                 
 
                 
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="">Login</a>
+                <a className="nav-link" href="/">Login</a>
                 
               </li>
               <li className="nav-item dropdown">
@@ -55,9 +54,9 @@ function Header(props) {
 }
 
 export default Header;
-Header.defaultProps = {
-  title : "your title here"
-}
+//Header.defaultProps = {
+  //title : "your title here"
+//}
 
 Header.proptype = {
   title: PropTypes.string

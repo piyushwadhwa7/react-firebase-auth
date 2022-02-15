@@ -3,13 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Alert } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { useUserAuth } from "../Context/UserAuthcontext";
+import GoogleButton from "react-google-button";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-  const { signUp } = useUserAuth();
+  const { signUp,  googleSignIn } = useUserAuth();
   let navigate = useNavigate();
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +24,18 @@ const Signup = () => {
     }
   };
 
+    const handleGoogleSignIn = async (e) => {
+      e.preventDefault();
+      try {
+        await googleSignIn();
+        navigate("/home");
+      } catch (error) {
+        console.log(error.message);
+      }
+  };
+
   return (
+    <>
     <div style={{ display: 'flex', flexFlow: 'column', alignItems: 'center' }}>
       <div className="p-4 box" style={{ width: '400px' }}>
         <h2 className="mb-3">Firebase Auth Signup</h2>
@@ -50,11 +63,21 @@ const Signup = () => {
             </Button>
           </div>
         </Form>
+        <hr />
+        <div>
+          <GoogleButton
+            className="g-btn"
+            type="dark"
+            onClick={handleGoogleSignIn}
+          />
+        </div>
       </div>
       <div className="p-4 box mt-3 text-center">
         Already have an account? <Link to="/">Log In</Link>
       </div>
     </div>
+
+   </>
   );
 };
 
