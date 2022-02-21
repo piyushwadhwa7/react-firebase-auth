@@ -25,10 +25,6 @@ export default [
         name:"piyush",
         work:"Ui designer"
     },
-    {
-        id:6,
-        name:"piyush",
-        work:"Ui designer"
-
-    }
+    
+   
 ]
