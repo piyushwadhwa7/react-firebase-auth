@@ -15,7 +15,7 @@ export const option = {
 export default function main() {
   let response
 
-  group('page_1 - http://localhost:3000/', function () {
+  group('page_1 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/', function () {
     response = http.post(
       'https://guarded-plains-83208.herokuapp.com/api/v1/users',
       '{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2EwMjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUElZVVNIIFdBREhXQSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHajk4WDRNUzlOWWE0a18weHJfdzE3N0Nwa2tlOUt5cXI5U1Q2cHZzX009czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhY3QtYXV0aGVudGljYXRpb24tOTI4ZDYiLCJhdWQiOiJyZWFjdC1hdXRoZW50aWNhdGlvbi05MjhkNiIsImF1dGhfdGltZSI6MTY0NjQ2MTI3NCwidXNlcl9pZCI6IjNWOVpLMUlpcDlUenh1blRLeG5LRmwxVURPMTIiLCJzdWIiOiIzVjlaSzFJaXA5VHp4dW5US3huS0ZsMVVETzEyIiwiaWF0IjoxNjQ2NDYxMjc0LCJleHAiOjE2NDY0NjQ4NzQsImVtYWlsIjoicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTIyODczNzEyNDI5NDk0NzE5NjgiXSwiZW1haWwiOlsicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.N0qLYSiBo4FExA0pi6lgWRJdvKmzU49DJyLUNRAECsADjvpTnDq0_cFBxj-4n92Sbx9CnbnBsVPzCM43-nK_a71qST5JJcoDCDJtTw0lBaw5zLFJfXPfNRGNTqE80lPXB1RH2fFxbN3ySBBNcOnISm-GLD0UuCdPSV512GboVGbP9C8N2P972nj7YpOdpMAMrpsnYQWwg6ZhBt34WwzQ7rS5r605BlMnlohYQF0IO0p5wOdSo_hkcQpYK3jCUuLE54JuC1yVYL05fKB454GGpABKjfr89aVAzconhrQV-VjfFsGOa0SxyMBnlvQv8DKBjQKj4AHq7yGSwkkBuJ_feg"}',
@@ -599,8 +599,8 @@ export default function main() {
     sleep(1.8)
   })
 
-  group('page_2 - http://localhost:3000/quicktalks/new', function () {
-    response = http.get('http://localhost:3000/quicktalks/new', {
+  group('page_2 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/quicktalks/new', function () {
+    response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/quicktalks/new', {
       headers: {
         dnt: '1',
         'upgrade-insecure-requests': '1',
@@ -647,8 +647,8 @@ export default function main() {
     'is status 200': (r) => r.status === 200,
   });
 
-  group('page_3 - http://localhost:3000/home', function () {
-    response = http.get('http://localhost:3000/home', {
+  group('page_3 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home', function () {
+    response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home', {
       headers: {
         dnt: '1',
         'upgrade-insecure-requests': '1',
@@ -1123,8 +1123,8 @@ export default function main() {
     sleep(3.4)
   })
 
-  group('page_4 - http://localhost:3000/logout', function () {
-    response = http.get('http://localhost:3000/logout', {
+  group('page_4 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/logout', function () {
+    response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/logout', {
       headers: {
         dnt: '1',
         'upgrade-insecure-requests': '1',
