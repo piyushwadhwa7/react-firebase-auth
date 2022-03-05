@@ -658,7 +658,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 304': (r) => r.status === 304,
+      'is status 200': (r) => r.status === 200,
     });
     sleep(3)
 
@@ -1134,4 +1134,7 @@ export default function main() {
       },
     })
   })
+  check(response, {
+    'is status 200': (r) => r.status === 200,
+  });
 }
