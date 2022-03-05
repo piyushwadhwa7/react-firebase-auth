@@ -658,7 +658,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => r?.status === 200 || r === null,
     });
     sleep(3)
 
@@ -1135,6 +1135,6 @@ export default function main() {
     })
   })
   check(response, {
-    'is status 200': (r) => r.status === 200,
+    'is status 200': (r) => r?.status === 200 || r === null,
   });
 }
