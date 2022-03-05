@@ -647,8 +647,8 @@ export default function main() {
     'is status 200': (r) => r.status === 200,
   });
 
-  group('page_3 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home', function () {
-    response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home', {
+  group('page_3 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home/', function () {
+    response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home/', {
       headers: {
         dnt: '1',
         'upgrade-insecure-requests': '1',
@@ -1123,8 +1123,8 @@ export default function main() {
     sleep(3.4)
   })
 
-  group('page_4 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/logout', function () {
-    response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/logout', {
+  group('page_4 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/logout/', function () {
+    response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/logout/', {
       headers: {
         dnt: '1',
         'upgrade-insecure-requests': '1',
