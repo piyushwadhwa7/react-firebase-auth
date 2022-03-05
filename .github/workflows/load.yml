@@ -15,7 +15,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-k6_load_test:
+
+ k6_load_test:
   name: k6 Load Test
   runs-on: ubuntu-latest
 
@@ -26,9 +27,9 @@ k6_load_test:
     - name: Run local k6 test
       uses: k6io/action@v0.1
       with:
-        filename: script.js
+        filename: testing/script.js
   # This workflow contains a single job called "build"
-  build:
+ build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
