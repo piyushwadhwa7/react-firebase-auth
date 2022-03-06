@@ -1,18 +1,20 @@
 /* eslint-disable import/no-unresolved */
 // Creator: k6 Browser Recorder 0.6.2
 
-import { sleep, group, check } from 'k6';
+import {
+  sleep, group, check, fail,
+} from 'k6';
 import http from 'k6/http';
 
 export const options = {
   stages: [
-    { duration: '2m', target: 50 }, // simulate ramp-up of traffic from 1 to 60 users over 5 minutes.
-    // { duration: '5m', target: 20 }, // stay at 60 users for 10 minutes
-    // { duration: '3m', target: 40 }, // ramp-up to 100 users over 3 minutes (peak hour starts)
-    // { duration: '2m', target: 40 }, // stay at 100 users for short amount of time (peak hour)
-    // { duration: '3m', target: 50 }, // ramp-down to 60 users over 3 minutes (peak hour ends)
-    // { duration: '10m', target: 50 }, // continue at 60 for additional 10 minutes
-    // { duration: '5m', target: 0 }, // ramp-down to 0 users
+    { duration: '1m', target: 50 }, // simulate ramp-up of traffic from 1 to 60 users over 5 minutes.
+    { duration: '5m', target: 20 }, // stay at 60 users for 10 minutes
+    { duration: '3m', target: 40 }, // ramp-up to 100 users over 3 minutes (peak hour starts)
+    { duration: '2m', target: 40 }, // stay at 100 users for short amount of time (peak hour)
+    { duration: '3m', target: 50 }, // ramp-down to 60 users over 3 minutes (peak hour ends)
+    { duration: '2m', target: 50 }, // continue at 60 for additional 10 minutes
+    { duration: '5m', target: 0 }, // ramp-down to 0 users
   ],
   thresholds: {
     http_req_duration: ['p(99)<1500'], // 99% of requests must complete below 1.5s
@@ -28,11 +30,12 @@ export const option = {
 
 export default function main() {
   let response;
+  let err;
 
   group('page_1 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/', () => {
     response = http.post(
       'https://guarded-plains-83208.herokuapp.com/api/v1/users',
-      '{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2EwMjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUElZVVNIIFdBREhXQSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHajk4WDRNUzlOWWE0a18weHJfdzE3N0Nwa2tlOUt5cXI5U1Q2cHZzX009czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhY3QtYXV0aGVudGljYXRpb24tOTI4ZDYiLCJhdWQiOiJyZWFjdC1hdXRoZW50aWNhdGlvbi05MjhkNiIsImF1dGhfdGltZSI6MTY0NjU1NzkxOSwidXNlcl9pZCI6IjNWOVpLMUlpcDlUenh1blRLeG5LRmwxVURPMTIiLCJzdWIiOiIzVjlaSzFJaXA5VHp4dW5US3huS0ZsMVVETzEyIiwiaWF0IjoxNjQ2NTU3OTE5LCJleHAiOjE2NDY1NjE1MTksImVtYWlsIjoicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTIyODczNzEyNDI5NDk0NzE5NjgiXSwiZW1haWwiOlsicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.YyplFM1ImqNEfti9yBUmtmTFmOhZL4ZDEtQ8dMALR3ZFMI2X1C39IT1hcrP2mgQauJ0NIVk-v7rBr3eB4azx_gtyCWlq8rTIs1eEPVCdV3-Gnl50Rwvo3kuuEN5PNS7UtnWRkS93cmX3bzlQdUB4HOuZpz7zCMLkk1w0nb0O3gKuwMt__pmbv-vN1yAN-FwVi83YrfKGHB5_ejzmML3jKK5AnSHFFdZth6D8K4uWC-fzuakzGPj50xIwWpPm76DxyJeOCgKwdn4-4-YWnsvVTzBG9yE7jZKCiJZGh7LOFbaey808t9vBOHGFgsXi_c4-WkQxKsj8t5t7QsE1DwNGVg"}',
+      '{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2EwMjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUElZVVNIIFdBREhXQSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHajk4WDRNUzlOWWE0a18weHJfdzE3N0Nwa2tlOUt5cXI5U1Q2cHZzX009czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhY3QtYXV0aGVudGljYXRpb24tOTI4ZDYiLCJhdWQiOiJyZWFjdC1hdXRoZW50aWNhdGlvbi05MjhkNiIsImF1dGhfdGltZSI6MTY0NjU3ODMzNCwidXNlcl9pZCI6IjNWOVpLMUlpcDlUenh1blRLeG5LRmwxVURPMTIiLCJzdWIiOiIzVjlaSzFJaXA5VHp4dW5US3huS0ZsMVVETzEyIiwiaWF0IjoxNjQ2NTc4MzM0LCJleHAiOjE2NDY1ODE5MzQsImVtYWlsIjoicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTIyODczNzEyNDI5NDk0NzE5NjgiXSwiZW1haWwiOlsicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.Y3118sd_Lghcf7_Ta7DHquoi5IzoqN65Z6A-fOVfrxiu-KQ-39TI2fX0XI4yyvFSla2sCAkjSTqo1BBmhLIZZaI3emS7N2dYwQCQZ6SB6vy9Y1DpgfE8tJ_RonBfI4U21eWeIZN9QjyoiFowSIS-7wh6aNCHwLvUD4WLC1bU4LJ9-NCN_0v6VYpW0gn-K_wqtbK1HGMt4-_VE-w3-23aqkIdJ8nzhWFws5xbC0xIyfiutgSug2E8mzkN2Ubp7RRO2EfymY3nsv4BEuBNnhc0O0EUhS7a75Sg2bsbjk4QY7sNElRmHn7zCz-Efba9o3oI2tBmo2LBqYYWE8fe0NviGQ"}',
       {
         headers: {
           accept: 'application/json, text/plain, */*',
@@ -44,9 +47,16 @@ export default function main() {
         },
       },
     );
-    check(response, {
-      'is status 200': ({ status }) => ((status && status === 200) || undefined),
-    });
+    if (
+      !check(response, {
+        'status code MUST be 200': (res) => res.status === 200,
+      })
+    ) {
+      fail(
+        err,
+        `error message: ${err}`,
+      );
+    }
     sleep(2);
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks', {
