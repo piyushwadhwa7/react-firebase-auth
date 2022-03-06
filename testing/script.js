@@ -45,7 +45,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.options('https://guarded-plains-83208.herokuapp.com/api/v1/users', null, {
@@ -58,7 +58,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(2)
 
@@ -72,7 +72,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(0.6)
 
@@ -86,7 +86,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
@@ -99,7 +99,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
@@ -112,7 +112,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
@@ -125,7 +125,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
@@ -138,7 +138,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
@@ -151,7 +151,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
@@ -164,7 +164,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
@@ -177,7 +177,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/8', {
@@ -190,7 +190,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(1.1)
 
@@ -206,7 +206,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -221,7 +221,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -236,7 +236,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -251,7 +251,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -266,7 +266,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -281,7 +281,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -296,7 +296,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -311,7 +311,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(8.7)
 
@@ -325,7 +325,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(0.5)
 
@@ -343,7 +343,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(1.5)
 
@@ -356,7 +356,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(16.7)
 
@@ -370,7 +370,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/1', {
@@ -383,7 +383,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
@@ -396,7 +396,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
@@ -409,7 +409,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
@@ -422,7 +422,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
@@ -435,7 +435,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
@@ -448,7 +448,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
@@ -461,7 +461,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
@@ -474,7 +474,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/8', {
@@ -487,7 +487,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(1.1)
 
@@ -503,7 +503,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -518,7 +518,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -533,7 +533,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -548,7 +548,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -563,7 +563,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -578,7 +578,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -593,7 +593,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -608,7 +608,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(1.8)
   })
@@ -624,7 +624,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(14.9)
 
@@ -643,7 +643,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.options('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks', null, {
@@ -658,7 +658,7 @@ export default function main() {
     sleep(1.6)
   })
   check(response, {
-    'is status 200': (r) => r.status === 200,
+    'is status 200': (r) => ((r && r.status === 200) || r === null),
   });
 
   group('page_3 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home/', function () {
@@ -686,7 +686,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(0.6)
 
@@ -700,7 +700,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
@@ -713,7 +713,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
@@ -726,7 +726,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
@@ -739,7 +739,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
@@ -752,7 +752,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
@@ -765,7 +765,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
@@ -778,7 +778,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
@@ -791,7 +791,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/8', {
@@ -804,7 +804,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(1.1)
 
@@ -820,7 +820,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -835,7 +835,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -850,7 +850,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -865,7 +865,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -880,7 +880,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -895,7 +895,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -910,7 +910,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get(
@@ -925,7 +925,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(6.4)
 
@@ -939,7 +939,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(0.5)
 
@@ -957,7 +957,7 @@ export default function main() {
       }
     )
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(0.9)
 
@@ -970,7 +970,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     sleep(8.9)
 
@@ -984,7 +984,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/1', {
@@ -997,7 +997,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
@@ -1010,7 +1010,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
@@ -1023,7 +1023,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
@@ -1046,7 +1046,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
