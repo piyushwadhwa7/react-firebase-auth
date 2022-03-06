@@ -4,7 +4,21 @@ import { sleep, group } from 'k6'
 import http from 'k6/http'
 import { check } from 'k6';
 
-export const options = { vus: 10, duration: '1m' }
+export const options = {
+  stages: [
+    { duration: '2m', target: 10 }, // simulate ramp-up of traffic from 1 to 60 users over 5 minutes.
+    { duration: '5m', target: 20 }, // stay at 60 users for 10 minutes
+    { duration: '3m', target: 40 }, // ramp-up to 100 users over 3 minutes (peak hour starts)
+    { duration: '2m', target: 40 }, // stay at 100 users for short amount of time (peak hour)
+    { duration: '3m', target: 50 }, // ramp-down to 60 users over 3 minutes (peak hour ends)
+    { duration: '10m', target: 50 }, // continue at 60 for additional 10 minutes
+    { duration: '5m', target: 0 }, // ramp-down to 0 users
+  ],
+  thresholds: {
+    http_req_duration: ['p(99)<1500'], // 99% of requests must complete below 1.5s
+  },
+};
+
 export const option = {
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
@@ -685,6 +699,9 @@ export default function main() {
         'sec-ch-ua-platform': '"macOS"',
       },
     })
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
       headers: {
@@ -695,6 +712,9 @@ export default function main() {
         'sec-ch-ua-platform': '"macOS"',
       },
     })
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
       headers: {
@@ -705,6 +725,9 @@ export default function main() {
         'sec-ch-ua-platform': '"macOS"',
       },
     })
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
       headers: {
@@ -715,6 +738,9 @@ export default function main() {
         'sec-ch-ua-platform': '"macOS"',
       },
     })
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
       headers: {
@@ -725,6 +751,9 @@ export default function main() {
         'sec-ch-ua-platform': '"macOS"',
       },
     })
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
       headers: {
@@ -735,6 +764,9 @@ export default function main() {
         'sec-ch-ua-platform': '"macOS"',
       },
     })
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
       headers: {
@@ -745,6 +777,9 @@ export default function main() {
         'sec-ch-ua-platform': '"macOS"',
       },
     })
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
       headers: {
@@ -755,6 +790,9 @@ export default function main() {
         'sec-ch-ua-platform': '"macOS"',
       },
     })
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/8', {
       headers: {
@@ -765,6 +803,9 @@ export default function main() {
         'sec-ch-ua-platform': '"macOS"',
       },
     })
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
     sleep(1.1)
 
     response = http.get(
@@ -778,6 +819,9 @@ export default function main() {
         },
       }
     )
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get(
       'https://lh3.googleusercontent.com/a-/AOh14GjBxdNRC9VSx3gCZKVm6hnk0S7IFvnWt6NvYKHpMA=s96-c',
@@ -790,6 +834,9 @@ export default function main() {
         },
       }
     )
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get(
       'https://lh3.googleusercontent.com/a-/AOh14GjJjS-dSKcAaqHiEa8EUsKSFTtLSsR8xv5DpMWS=s96-c',
@@ -802,6 +849,9 @@ export default function main() {
         },
       }
     )
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get(
       'https://lh3.googleusercontent.com/a/AATXAJwPvZLCo7jLXyBbxOmhTnO6OQ2tyWdrf_LPUcXl=s96-c',
@@ -814,6 +864,9 @@ export default function main() {
         },
       }
     )
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get(
       'https://lh3.googleusercontent.com/a/AATXAJwKzKU4WG8b9gGjfcX_pMtys7HzqOW0CXwz2Gv1=s96-c',
@@ -826,6 +879,9 @@ export default function main() {
         },
       }
     )
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get(
       'https://lh3.googleusercontent.com/a/AATXAJwnX_u_JqYs0d-xO6Royo0Rjf5XqUL6Ouyk4wco=s96-c',
@@ -838,6 +894,9 @@ export default function main() {
         },
       }
     )
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get(
       'https://lh3.googleusercontent.com/a/AATXAJycDx_notTp4qQadS0TprbHhPtmicuYAqeSV8Go=s96-c',
@@ -850,6 +909,9 @@ export default function main() {
         },
       }
     )
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
 
     response = http.get(
       'https://lh3.googleusercontent.com/a/AATXAJwnrfhJX6Yi1rhkf5eNv5Ep_z_lt604C-FJhV7q=s96-c',
@@ -862,6 +924,9 @@ export default function main() {
         },
       }
     )
+    check(response, {
+      'is status 200': (r) => r.status === 200,
+    });
     sleep(6.4)
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks/36', {
