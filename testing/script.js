@@ -317,7 +317,7 @@ export default function main() {
         },
       })
       check(response, {
-        'is status 304': (r) => ((r && r.status === 304) || r === null),
+        'is status 200': (r) => ((r && r.status === 200) || r === null),
       });
 
       response = http.get(
@@ -424,7 +424,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 304': (r) => ((r && r.status === 304) || r === null),
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
 
     response = http.get('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', {
@@ -1209,7 +1209,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 304': (r) => ((r && r.status === 304) || r === null),
+      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
     response = http.get('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', {
       headers: {
