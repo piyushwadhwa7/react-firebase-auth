@@ -22,7 +22,7 @@ export const options = {
 export const option = {
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
-    //http_req_duration: ['p(95)<200'], // 95% of requests should be below 200ms
+    http_req_duration: ['p(95)<2000'], // 95% of requests should be below 200ms
   },
 };
 
@@ -624,7 +624,7 @@ export default function main() {
       },
     })
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 304': (r) => ((r && r.status === 304) || r === null),
     });
     sleep(14.9)
 
@@ -1200,6 +1200,6 @@ export default function main() {
     })
   })
   check(response, {
-    'is status 200': (r) => ((r && r.status === 200) || r === null),
+    'is status 304': (r) => ((r && r.status === 304) || r === null),
   });
 }
