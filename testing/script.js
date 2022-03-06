@@ -1,18 +1,18 @@
+/* eslint-disable import/no-unresolved */
 // Creator: k6 Browser Recorder 0.6.2
 
-import { sleep, group } from 'k6'
-import http from 'k6/http'
-import { check } from 'k6';
+import { sleep, group, check } from 'k6';
+import http from 'k6/http';
 
 export const options = {
   stages: [
     { duration: '2m', target: 50 }, // simulate ramp-up of traffic from 1 to 60 users over 5 minutes.
-    //{ duration: '5m', target: 20 }, // stay at 60 users for 10 minutes
-    //{ duration: '3m', target: 40 }, // ramp-up to 100 users over 3 minutes (peak hour starts)
-    //{ duration: '2m', target: 40 }, // stay at 100 users for short amount of time (peak hour)
-    //{ duration: '3m', target: 50 }, // ramp-down to 60 users over 3 minutes (peak hour ends)
-    //{ duration: '10m', target: 50 }, // continue at 60 for additional 10 minutes
-    //{ duration: '5m', target: 0 }, // ramp-down to 0 users
+    // { duration: '5m', target: 20 }, // stay at 60 users for 10 minutes
+    // { duration: '3m', target: 40 }, // ramp-up to 100 users over 3 minutes (peak hour starts)
+    // { duration: '2m', target: 40 }, // stay at 100 users for short amount of time (peak hour)
+    // { duration: '3m', target: 50 }, // ramp-down to 60 users over 3 minutes (peak hour ends)
+    // { duration: '10m', target: 50 }, // continue at 60 for additional 10 minutes
+    // { duration: '5m', target: 0 }, // ramp-down to 0 users
   ],
   thresholds: {
     http_req_duration: ['p(99)<1500'], // 99% of requests must complete below 1.5s
@@ -26,11 +26,10 @@ export const option = {
   },
 };
 
-
 export default function main() {
-  let response
+  let response;
 
-  group('page_1 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/', function () {
+  group('page_1 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/', () => {
     response = http.post(
       'https://guarded-plains-83208.herokuapp.com/api/v1/users',
       '{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2EwMjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUElZVVNIIFdBREhXQSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHajk4WDRNUzlOWWE0a18weHJfdzE3N0Nwa2tlOUt5cXI5U1Q2cHZzX009czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhY3QtYXV0aGVudGljYXRpb24tOTI4ZDYiLCJhdWQiOiJyZWFjdC1hdXRoZW50aWNhdGlvbi05MjhkNiIsImF1dGhfdGltZSI6MTY0NjU1NzkxOSwidXNlcl9pZCI6IjNWOVpLMUlpcDlUenh1blRLeG5LRmwxVURPMTIiLCJzdWIiOiIzVjlaSzFJaXA5VHp4dW5US3huS0ZsMVVETzEyIiwiaWF0IjoxNjQ2NTU3OTE5LCJleHAiOjE2NDY1NjE1MTksImVtYWlsIjoicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTIyODczNzEyNDI5NDk0NzE5NjgiXSwiZW1haWwiOlsicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.YyplFM1ImqNEfti9yBUmtmTFmOhZL4ZDEtQ8dMALR3ZFMI2X1C39IT1hcrP2mgQauJ0NIVk-v7rBr3eB4azx_gtyCWlq8rTIs1eEPVCdV3-Gnl50Rwvo3kuuEN5PNS7UtnWRkS93cmX3bzlQdUB4HOuZpz7zCMLkk1w0nb0O3gKuwMt__pmbv-vN1yAN-FwVi83YrfKGHB5_ejzmML3jKK5AnSHFFdZth6D8K4uWC-fzuakzGPj50xIwWpPm76DxyJeOCgKwdn4-4-YWnsvVTzBG9yE7jZKCiJZGh7LOFbaey808t9vBOHGFgsXi_c4-WkQxKsj8t5t7QsE1DwNGVg"}',
@@ -43,12 +42,12 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
-    sleep(2)
+    sleep(2);
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks', {
       headers: {
@@ -58,11 +57,11 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
-    check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
-    sleep(0.6)
+    check(response, {
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
+    });
+    sleep(0.6);
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/1', {
       headers: {
@@ -72,9 +71,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
@@ -85,9 +84,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
@@ -98,9 +97,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
@@ -111,9 +110,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
@@ -124,9 +123,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
@@ -137,9 +136,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
@@ -150,9 +149,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
@@ -163,9 +162,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/8', {
@@ -176,11 +175,11 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
-    check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
-    sleep(1)
+    check(response, {
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
+    });
+    sleep(1);
 
     response = http.get(
       'https://lh3.googleusercontent.com/a-/AOh14Gj98X4MS9NYa4k_0xr_w177Cpkke9Kyqr9ST6pvs_M=s96-c',
@@ -191,10 +190,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -206,10 +205,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -221,10 +220,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -236,10 +235,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -251,10 +250,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -266,10 +265,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -281,10 +280,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -296,17 +295,17 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
-    sleep(5.3)
-  })
+    sleep(5.3);
+  });
 
   group(
     'page_2 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/quicktalks/new',
-    function () {
+    () => {
       response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/quicktalks/new', {
         headers: {
           dnt: '1',
@@ -315,9 +314,9 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      })
+      });
       check(response, {
-        'is status 200': (r) => ((r && r.status === 200) || r === null),
+        'is status 200': ({ status }) => ((status && status === 200) || undefined),
       });
 
       response = http.get(
@@ -330,12 +329,12 @@ export default function main() {
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"macOS"',
           },
-        }
-      )
+        },
+      );
       check(response, {
-        'is status 200': (r) => ((r && r.status === 200) || r === null),
+        'is status 200': ({ status }) => ((status && status === 200) || undefined),
       });
-      sleep(5.3)
+      sleep(5.3);
 
       response = http.post(
         'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
@@ -349,12 +348,12 @@ export default function main() {
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"macOS"',
           },
-        }
-      )
+        },
+      );
       check(response, {
-        'is status 200': (r) => ((r && r.status === 200) || r === null),
+        'is status 200': ({ status }) => ((status && status === 200) || undefined),
       });
-      sleep(1)
+      sleep(1);
 
       response = http.post(
         'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
@@ -368,28 +367,10 @@ export default function main() {
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"macOS"',
           },
-        }
-      )
+        },
+      );
       check(response, {
-        'is status 200': (r) => ((r && r.status === 200) || r === null),
-      });
-
-      response = http.post(
-        'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
-        '{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2EwMjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUElZVVNIIFdBREhXQSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHajk4WDRNUzlOWWE0a18weHJfdzE3N0Nwa2tlOUt5cXI5U1Q2cHZzX009czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhY3QtYXV0aGVudGljYXRpb24tOTI4ZDYiLCJhdWQiOiJyZWFjdC1hdXRoZW50aWNhdGlvbi05MjhkNiIsImF1dGhfdGltZSI6MTY0NjU1NzkxOSwidXNlcl9pZCI6IjNWOVpLMUlpcDlUenh1blRLeG5LRmwxVURPMTIiLCJzdWIiOiIzVjlaSzFJaXA5VHp4dW5US3huS0ZsMVVETzEyIiwiaWF0IjoxNjQ2NTU3OTE5LCJleHAiOjE2NDY1NjE1MTksImVtYWlsIjoicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTIyODczNzEyNDI5NDk0NzE5NjgiXSwiZW1haWwiOlsicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.YyplFM1ImqNEfti9yBUmtmTFmOhZL4ZDEtQ8dMALR3ZFMI2X1C39IT1hcrP2mgQauJ0NIVk-v7rBr3eB4azx_gtyCWlq8rTIs1eEPVCdV3-Gnl50Rwvo3kuuEN5PNS7UtnWRkS93cmX3bzlQdUB4HOuZpz7zCMLkk1w0nb0O3gKuwMt__pmbv-vN1yAN-FwVi83YrfKGHB5_ejzmML3jKK5AnSHFFdZth6D8K4uWC-fzuakzGPj50xIwWpPm76DxyJeOCgKwdn4-4-YWnsvVTzBG9yE7jZKCiJZGh7LOFbaey808t9vBOHGFgsXi_c4-WkQxKsj8t5t7QsE1DwNGVg","name":"","privacy":"public"}',
-        {
-          headers: {
-            accept: 'application/json, text/plain, */*',
-            'content-type': 'application/json',
-            dnt: '1',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"macOS"',
-          },
-        }
-      )
-      check(response, {
-        'is status 200': (r) => ((r && r.status === 200) || r === null),
+        'is status 200': ({ status }) => ((status && status === 200) || undefined),
       });
 
       response = http.post(
@@ -404,16 +385,34 @@ export default function main() {
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"macOS"',
           },
-        }
-      )
+        },
+      );
       check(response, {
-        'is status 200': (r) => ((r && r.status === 200) || r === null),
+        'is status 200': ({ status }) => ((status && status === 200) || undefined),
       });
-      sleep(1.8)
-    }
-  )
 
-  group('page_3 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home', function () {
+      response = http.post(
+        'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
+        '{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2EwMjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUElZVVNIIFdBREhXQSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHajk4WDRNUzlOWWE0a18weHJfdzE3N0Nwa2tlOUt5cXI5U1Q2cHZzX009czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhY3QtYXV0aGVudGljYXRpb24tOTI4ZDYiLCJhdWQiOiJyZWFjdC1hdXRoZW50aWNhdGlvbi05MjhkNiIsImF1dGhfdGltZSI6MTY0NjU1NzkxOSwidXNlcl9pZCI6IjNWOVpLMUlpcDlUenh1blRLeG5LRmwxVURPMTIiLCJzdWIiOiIzVjlaSzFJaXA5VHp4dW5US3huS0ZsMVVETzEyIiwiaWF0IjoxNjQ2NTU3OTE5LCJleHAiOjE2NDY1NjE1MTksImVtYWlsIjoicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTIyODczNzEyNDI5NDk0NzE5NjgiXSwiZW1haWwiOlsicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.YyplFM1ImqNEfti9yBUmtmTFmOhZL4ZDEtQ8dMALR3ZFMI2X1C39IT1hcrP2mgQauJ0NIVk-v7rBr3eB4azx_gtyCWlq8rTIs1eEPVCdV3-Gnl50Rwvo3kuuEN5PNS7UtnWRkS93cmX3bzlQdUB4HOuZpz7zCMLkk1w0nb0O3gKuwMt__pmbv-vN1yAN-FwVi83YrfKGHB5_ejzmML3jKK5AnSHFFdZth6D8K4uWC-fzuakzGPj50xIwWpPm76DxyJeOCgKwdn4-4-YWnsvVTzBG9yE7jZKCiJZGh7LOFbaey808t9vBOHGFgsXi_c4-WkQxKsj8t5t7QsE1DwNGVg","name":"","privacy":"public"}',
+        {
+          headers: {
+            accept: 'application/json, text/plain, */*',
+            'content-type': 'application/json',
+            dnt: '1',
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"macOS"',
+          },
+        },
+      );
+      check(response, {
+        'is status 200': ({ status }) => ((status && status === 200) || undefined),
+      });
+      sleep(1.8);
+    },
+  );
+
+  group('page_3 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home', () => {
     response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/home', {
       headers: {
         dnt: '1',
@@ -422,9 +421,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', {
@@ -435,11 +434,11 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
-    check(response, {
-      'is status 304': (r) => ((r && r.status === 304) || r === null),
     });
-    sleep(2.5)
+    check(response, {
+      'is status 304': ({ status }) => ((status && status === 200) || undefined),
+    });
+    sleep(2.5);
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks', {
       headers: {
@@ -449,11 +448,11 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
-    check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
-    sleep(0.6)
+    check(response, {
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
+    });
+    sleep(0.6);
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/1', {
       headers: {
@@ -463,9 +462,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
@@ -476,9 +475,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
@@ -489,9 +488,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
@@ -502,9 +501,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
@@ -515,9 +514,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
@@ -528,9 +527,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
@@ -541,9 +540,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
@@ -554,9 +553,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/8', {
@@ -567,11 +566,11 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
-    check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
-    sleep(1)
+    check(response, {
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
+    });
+    sleep(1);
 
     response = http.get(
       'https://lh3.googleusercontent.com/a-/AOh14Gj98X4MS9NYa4k_0xr_w177Cpkke9Kyqr9ST6pvs_M=s96-c',
@@ -582,10 +581,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -597,10 +596,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -612,10 +611,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -627,10 +626,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -642,10 +641,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -657,10 +656,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -672,10 +671,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -687,12 +686,12 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
-    sleep(3.5)
+    sleep(3.5);
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks/42', {
       headers: {
@@ -702,9 +701,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.post(
@@ -718,9 +717,9 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
-    sleep(1.4)
+      },
+    );
+    sleep(1.4);
 
     response = http.get('https://c.daily.co/static/call-machine-object-bundle.js', {
       headers: {
@@ -729,11 +728,11 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
-    check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
-    sleep(0.5)
+    check(response, {
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
+    });
+    sleep(0.5);
 
     response = http.get('https://gs.daily.co/rooms/check/quicktalk/Ij57Ml1oer1PaZPmDp4I', {
       headers: {
@@ -745,7 +744,7 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
 
     response = http.options(
       'https://gs.daily.co/rooms/check/quicktalk/Ij57Ml1oer1PaZPmDp4I',
@@ -758,9 +757,9 @@ export default function main() {
           origin: 'https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app',
           'sec-fetch-mode': 'cors',
         },
-      }
-    )
-    sleep(17.7)
+      },
+    );
+    sleep(17.7);
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks', {
       headers: {
@@ -770,9 +769,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/1', {
@@ -783,9 +782,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
@@ -796,9 +795,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
@@ -809,9 +808,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
@@ -822,9 +821,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
@@ -835,9 +834,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
@@ -848,9 +847,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
@@ -861,9 +860,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
@@ -874,9 +873,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/8', {
@@ -887,11 +886,11 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
-    check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
-    sleep(1.2)
+    check(response, {
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
+    });
+    sleep(1.2);
 
     response = http.get(
       'https://lh3.googleusercontent.com/a-/AOh14Gj98X4MS9NYa4k_0xr_w177Cpkke9Kyqr9ST6pvs_M=s96-c',
@@ -902,10 +901,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -917,10 +916,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -932,10 +931,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -947,10 +946,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -962,10 +961,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -977,10 +976,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -992,10 +991,10 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get(
@@ -1007,12 +1006,12 @@ export default function main() {
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
-    sleep(8.5)
+    sleep(8.5);
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks/33', {
       headers: {
@@ -1022,9 +1021,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://c.daily.co/static/call-machine-object-bundle.js', {
@@ -1034,9 +1033,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://gs.daily.co/rooms/check/quicktalk/New_quicktalk_wasd', {
@@ -1047,9 +1046,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.options('https://gs.daily.co/rooms/check/quicktalk/New_quicktalk_wasd', null, {
@@ -1060,11 +1059,11 @@ export default function main() {
         origin: 'https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app',
         'sec-fetch-mode': 'cors',
       },
-    })
-    check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
-    sleep(8.4)
+    check(response, {
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
+    });
+    sleep(8.4);
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks', {
       headers: {
@@ -1074,9 +1073,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/1', {
@@ -1087,9 +1086,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
@@ -1100,9 +1099,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
@@ -1113,9 +1112,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
@@ -1126,9 +1125,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
@@ -1139,9 +1138,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
@@ -1152,9 +1151,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
@@ -1165,9 +1164,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
@@ -1178,9 +1177,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
 
     response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/8', {
@@ -1191,14 +1190,14 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
-    check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
     });
-    sleep(2.9)
-  })
+    check(response, {
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
+    });
+    sleep(2.9);
+  });
 
-  group('page_4 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/logout', function () {
+  group('page_4 - https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/logout', () => {
     response = http.get('https://quicktalk-mr80eulb5-piyushwadhwa7.vercel.app/logout', {
       headers: {
         dnt: '1',
@@ -1207,9 +1206,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    });
     check(response, {
-      'is status 200': (r) => ((r && r.status === 200) || r === null),
+      'is status 200': ({ status }) => ((status && status === 200) || undefined),
     });
     response = http.get('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', {
       headers: {
@@ -1219,9 +1218,9 @@ export default function main() {
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
       },
-    })
-  })
+    });
+  });
   check(response, {
-    'is status 200': (r) => ((r && r.status === 200) || r === null),
+    'is status 200': ({ status }) => ((status && status === 200) || undefined),
   });
 }
