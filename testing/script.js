@@ -1,497 +1,324 @@
 // Creator: k6 Browser Recorder 0.6.2
 
-import { sleep, group } from 'k6'
-import { check } from 'k6';
-import http from 'k6/http'
-
-import jsonpath from 'https://jslib.k6.io/jsonpath/1.0.2/index.js'
+import { sleep, group, check } from 'k6';
+// eslint-disable-next-line import/no-unresolved
+import http from 'k6/http';
 
 export const options = {
   stages: [
-    { duration: '1m', target: 100 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
-    { duration: '1m', target: 100 }, // stay at 100 users for 10 minutes
+    { duration: '5m', target: 100 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
+    { duration: '10m', target: 100 }, // stay at 100 users for 10 minutes
     { duration: '5m', target: 0 }, // ramp-down to 0 users
   ],
   thresholds: {
-    'http_req_duration': ['p(99)<3500'], // 99% of requests must complete below 1.5s
-    'logged in successfully': ['p(99)<3500'], // 99% of requests must complete below 1.5s
+    http_req_duration: ['p(99)<1500'], // 99% of requests must complete below 1.5s
+    'logged in successfully': ['p(99)<1500'], // 99% of requests must complete below 1.5s
   },
 };
 
-
-
 export default function main() {
-  let response
+  let response;
 
-  const vars = {}
-
-  group('page_1 - http://localhost:3000/', function () {
-    response = http.post(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc',
-      '{"requestUri":"https://react-authentication-928d6.firebaseapp.com/__/auth/handler?state=AMbdmDmwIUvvgSml-oG8KhxfQkT_7WgAT-NE5UQK4yx0CEyweJRUh86hhoabiQFEmQjgNfeEAKC3CSh9ECaj_8IEIJMF97eYodxid8RE_-Q-18C2eHK8yccUasCISAWk7fhgwFuiB3uxqFLUnmFdTxi6qL7KAfJDB76mST64nca78jpzI0vqQprj5h58tdIbCbLkNZqOnTnxPkpiaIo4MVbP-gZnkouM8x0qTJRMwt77I6dgJqg3ijWH0oRnwyd8VJCOe9kFDyznXkWXVlyYpq-uvg2iBKSxyKyIHpjOLci1gQJ85ARBbJrpYEePFTzBO14LDMYio_RFGh0Gk5sIaY3x-PCE&code=4%2F0AX4XfWi7AOEhSzBFOGBFsgnwakvClw5kMpBzptz1h1gMtnqDk1wpKBuDndCEbj0UzlFyZA&scope=email%20profile%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none","sessionId":"rvkqWIGpwrbwzH5Acf8-yRmdUbA","returnSecureToken":true,"returnIdpCredential":true}',
-      {
-        headers: {
-          'content-type': 'application/json',
-          dnt: '1',
-          'x-client-version': 'Chrome/JsCore/9.6.6/FirebaseCore-web',
-          'x-firebase-gmpid': '1:448825619649:web:4ae619687c29e6c3a29040',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-
-    vars['idToken'] = jsonpath.query(response.json(), '$.idToken')[0]
-    check(response, {
-      'is status 200': (r) => r.status === 200,
-    });
-
-    sleep(0.6)
-
-    response = http.post(
-      'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc',
-      `{"idToken":"${vars['idToken']}"}`,
-      {
-        headers: {
-          'content-type': 'application/json',
-          dnt: '1',
-          'x-client-version': 'Chrome/JsCore/9.6.6/FirebaseCore-web',
-          'x-firebase-gmpid': '1:448825619649:web:4ae619687c29e6c3a29040',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-    sleep(0.5)
-
+  group('page_1 - https://youthful-shirley-3dacfb.netlify.app/', () => {
     response = http.post(
       'https://guarded-plains-83208.herokuapp.com/api/v1/users',
-      `{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"${vars['idToken']}"}`,
+      '{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2EwMjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUElZVVNIIFdBREhXQSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHajk4WDRNUzlOWWE0a18weHJfdzE3N0Nwa2tlOUt5cXI5U1Q2cHZzX009czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhY3QtYXV0aGVudGljYXRpb24tOTI4ZDYiLCJhdWQiOiJyZWFjdC1hdXRoZW50aWNhdGlvbi05MjhkNiIsImF1dGhfdGltZSI6MTY0NjcyNzU3MSwidXNlcl9pZCI6IjNWOVpLMUlpcDlUenh1blRLeG5LRmwxVURPMTIiLCJzdWIiOiIzVjlaSzFJaXA5VHp4dW5US3huS0ZsMVVETzEyIiwiaWF0IjoxNjQ2NzI3NTcxLCJleHAiOjE2NDY3MzExNzEsImVtYWlsIjoicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTIyODczNzEyNDI5NDk0NzE5NjgiXSwiZW1haWwiOlsicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.QIZre73jBl2z61Yu3_fJ6fEnWEciBj1bhx1u_Lwu1D8HyHdZgxO0duGkg6pxW8Y2LKlvXfTRA7OccL4AAyqVD-X_FEJDNaYpFFROcrtBneGRLsYDLSLqzmT1nuP3bQn5_EEe2BY4qTDIFjv9O6Hi2dzIMY9FpJcqkRjA-GFVrrV97_4QcUE-h1RujvfvVTLTdGj01u510vKPUFruzRDYH88tWbDAVP1blFyjK43B5EyFcoZobLmJ4d7KoUC15NCGoebR4EkPQ8GaDPdCIULwUiTR_jb9SussnGpR6eKApdz8pMFo3Xk56RQMCNE0KIF4X_FtLLYNaFaQXyEkBS7Rew"}',
       {
         headers: {
           accept: 'application/json, text/plain, */*',
           'content-type': 'application/json',
           dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
     check(response, {
-      'is status 200': (r) => r.status === 200,
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    console.log(
+      `Response time was ${String(response.timings.duration)} ms`,
+    );
+
+    response = http.get(
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
+      {
+        headers: {
+          accept: 'application/json, text/plain, */*',
+          dnt: '1',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"macOS"',
+        },
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(8.5);
+
+    response = http.get(
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks/72',
+      {
+        headers: {
+          accept: 'application/json, text/plain, */*',
+          dnt: '1',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"macOS"',
+        },
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(2.5);
+
+    response = http.get(
+      'https://c.daily.co/static/call-machine-object-bundle.js',
+      {
+        headers: {
+          dnt: '1',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"macOS"',
+        },
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(0.5);
+
+    response = http.get('https://gs.daily.co/rooms/check/quicktalk/Qtalk-01', {
+      headers: {
+        dnt: '1',
+        'x-dailysessionid': 'e229435e-0b04-43f0-f2b5-5f7e796508c5',
+        'sec-ch-ua':
+          '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"',
+      },
+    });
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
     });
 
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-    sleep(1.1)
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/1', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-    sleep(1)
-
-    response = http.get(
-      'https://lh3.googleusercontent.com/a-/AOh14Gj98X4MS9NYa4k_0xr_w177Cpkke9Kyqr9ST6pvs_M=s96-c',
+    response = http.options(
+      'https://gs.daily.co/rooms/check/quicktalk/Qtalk-01',
+      null,
       {
         headers: {
+          accept: '*/*',
+          'access-control-request-headers': 'x-dailysessionid',
+          'access-control-request-method': 'GET',
+          origin: 'https://youthful-shirley-3dacfb.netlify.app',
+          'sec-fetch-mode': 'cors',
+        },
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(5.2);
+
+    response = http.get(
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
+      {
+        headers: {
+          accept: 'application/json, text/plain, */*',
           dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
-
-    response = http.get(
-      'https://lh3.googleusercontent.com/a-/AOh14GjBxdNRC9VSx3gCZKVm6hnk0S7IFvnWt6NvYKHpMA=s96-c',
-      {
-        headers: {
-          dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-
-    response = http.get(
-      'https://lh3.googleusercontent.com/a-/AOh14GjJjS-dSKcAaqHiEa8EUsKSFTtLSsR8xv5DpMWS=s96-c',
-      {
-        headers: {
-          dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-
-    response = http.get(
-      'https://lh3.googleusercontent.com/a/AATXAJwPvZLCo7jLXyBbxOmhTnO6OQ2tyWdrf_LPUcXl=s96-c',
-      {
-        headers: {
-          dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-
-    response = http.get(
-      'https://lh3.googleusercontent.com/a/AATXAJwKzKU4WG8b9gGjfcX_pMtys7HzqOW0CXwz2Gv1=s96-c',
-      {
-        headers: {
-          dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-
-    response = http.get(
-      'https://lh3.googleusercontent.com/a/AATXAJwnX_u_JqYs0d-xO6Royo0Rjf5XqUL6Ouyk4wco=s96-c',
-      {
-        headers: {
-          dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-
-    response = http.get(
-      'https://lh3.googleusercontent.com/a/AATXAJycDx_notTp4qQadS0TprbHhPtmicuYAqeSV8Go=s96-c',
-      {
-        headers: {
-          dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-    sleep(4.6)
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks/28', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
       },
-    })
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(9.3);
 
     response = http.post(
-      'https://partyline.daily.co/.netlify/functions/token',
-      '{"properties":{"room_name":"ROOM-014"}}',
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
+      '{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2EwMjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUElZVVNIIFdBREhXQSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHajk4WDRNUzlOWWE0a18weHJfdzE3N0Nwa2tlOUt5cXI5U1Q2cHZzX009czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhY3QtYXV0aGVudGljYXRpb24tOTI4ZDYiLCJhdWQiOiJyZWFjdC1hdXRoZW50aWNhdGlvbi05MjhkNiIsImF1dGhfdGltZSI6MTY0NjcyNzU3MSwidXNlcl9pZCI6IjNWOVpLMUlpcDlUenh1blRLeG5LRmwxVURPMTIiLCJzdWIiOiIzVjlaSzFJaXA5VHp4dW5US3huS0ZsMVVETzEyIiwiaWF0IjoxNjQ2NzI3NTcxLCJleHAiOjE2NDY3MzExNzEsImVtYWlsIjoicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTIyODczNzEyNDI5NDk0NzE5NjgiXSwiZW1haWwiOlsicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.QIZre73jBl2z61Yu3_fJ6fEnWEciBj1bhx1u_Lwu1D8HyHdZgxO0duGkg6pxW8Y2LKlvXfTRA7OccL4AAyqVD-X_FEJDNaYpFFROcrtBneGRLsYDLSLqzmT1nuP3bQn5_EEe2BY4qTDIFjv9O6Hi2dzIMY9FpJcqkRjA-GFVrrV97_4QcUE-h1RujvfvVTLTdGj01u510vKPUFruzRDYH88tWbDAVP1blFyjK43B5EyFcoZobLmJ4d7KoUC15NCGoebR4EkPQ8GaDPdCIULwUiTR_jb9SussnGpR6eKApdz8pMFo3Xk56RQMCNE0KIF4X_FtLLYNaFaQXyEkBS7Rew","name":"TEST-02","privacy":"public"}',
       {
         headers: {
-          'content-type': 'text/plain; charset=UTF-8',
+          accept: 'application/json, text/plain, */*',
+          'content-type': 'application/json',
           dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
-    sleep(2.2)
-
-    response = http.get('https://c.daily.co/static/call-machine-object-bundle.js', {
-      headers: {
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
       },
-    })
-    sleep(0.5)
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
 
-    response = http.get('https://gs.daily.co/rooms/check/quicktalk/ROOM-014', {
-      headers: {
-        dnt: '1',
-        'x-dailyjointoken':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDYyMjY1MzEsInIiOiJST09NLTAxNCIsIm8iOnRydWUsImQiOiJhNzU3YzZkYi00ZTMwLTQxOWItYjYzNy1jOGFhOGU2MWYxOGEiLCJpYXQiOjE2NDYyMjU5MzF9.bf0urtaAnFMq_LzO33F7yvNyTDB_v9vPHkoiU1-5HME',
-        'x-dailysessionid': '159094bd-2c52-4edc-8b66-2babc49cf96f',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
+    response = http.options(
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
+      null,
+      {
+        headers: {
+          accept: '*/*',
+          'access-control-request-headers': 'content-type',
+          'access-control-request-method': 'POST',
+          origin: 'https://youthful-shirley-3dacfb.netlify.app',
+          'sec-fetch-mode': 'cors',
+        },
       },
-    })
-
-    response = http.get('https://gs.daily.co/rooms/check/quicktalk/ROOM-014', null, {
-      headers: {
-        accept: '*/*',
-        'access-control-request-headers': 'x-dailyjointoken,x-dailysessionid',
-        'access-control-request-method': 'GET',
-        origin: 'https://youthful-shirley-3dacfb.netlify.app',
-        'sec-fetch-mode': 'cors',
-      },
-    })
-    sleep(7.2)
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/1', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/4', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/5', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/6', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/7', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/2', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/11', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-
-    response = http.get('https://guarded-plains-83208.herokuapp.com/api/v1/users/12', {
-      headers: {
-        accept: 'application/json, text/plain, */*',
-        dnt: '1',
-        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-      },
-    })
-    sleep(0.8)
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(3.3);
 
     response = http.get(
-      'https://lh3.googleusercontent.com/a-/AOh14Gj98X4MS9NYa4k_0xr_w177Cpkke9Kyqr9ST6pvs_M=s96-c',
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
       {
         headers: {
+          accept: 'application/json, text/plain, */*',
           dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(21.9);
+
+    response = http.post(
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
+      '{"key":"AIzaSyA3_xQelqAt31v9g5pFZFJZKJlbauqNvjc","token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2EwMjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUElZVVNIIFdBREhXQSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHajk4WDRNUzlOWWE0a18weHJfdzE3N0Nwa2tlOUt5cXI5U1Q2cHZzX009czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhY3QtYXV0aGVudGljYXRpb24tOTI4ZDYiLCJhdWQiOiJyZWFjdC1hdXRoZW50aWNhdGlvbi05MjhkNiIsImF1dGhfdGltZSI6MTY0NjcyNzU3MSwidXNlcl9pZCI6IjNWOVpLMUlpcDlUenh1blRLeG5LRmwxVURPMTIiLCJzdWIiOiIzVjlaSzFJaXA5VHp4dW5US3huS0ZsMVVETzEyIiwiaWF0IjoxNjQ2NzI3NTcxLCJleHAiOjE2NDY3MzExNzEsImVtYWlsIjoicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTIyODczNzEyNDI5NDk0NzE5NjgiXSwiZW1haWwiOlsicGl5dXNoLndhZGh3YS43MDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.QIZre73jBl2z61Yu3_fJ6fEnWEciBj1bhx1u_Lwu1D8HyHdZgxO0duGkg6pxW8Y2LKlvXfTRA7OccL4AAyqVD-X_FEJDNaYpFFROcrtBneGRLsYDLSLqzmT1nuP3bQn5_EEe2BY4qTDIFjv9O6Hi2dzIMY9FpJcqkRjA-GFVrrV97_4QcUE-h1RujvfvVTLTdGj01u510vKPUFruzRDYH88tWbDAVP1blFyjK43B5EyFcoZobLmJ4d7KoUC15NCGoebR4EkPQ8GaDPdCIULwUiTR_jb9SussnGpR6eKApdz8pMFo3Xk56RQMCNE0KIF4X_FtLLYNaFaQXyEkBS7Rew","name":"TEST-03","privacy":"public"}',
+      {
+        headers: {
+          accept: 'application/json, text/plain, */*',
+          'content-type': 'application/json',
+          dnt: '1',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"macOS"',
+        },
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(1.4);
 
     response = http.get(
-      'https://lh3.googleusercontent.com/a-/AOh14GjBxdNRC9VSx3gCZKVm6hnk0S7IFvnWt6NvYKHpMA=s96-c',
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
       {
         headers: {
+          accept: 'application/json, text/plain, */*',
           dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(4.1);
 
     response = http.get(
-      'https://lh3.googleusercontent.com/a-/AOh14GjJjS-dSKcAaqHiEa8EUsKSFTtLSsR8xv5DpMWS=s96-c',
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks/73',
       {
         headers: {
+          accept: 'application/json, text/plain, */*',
           dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(4.8);
 
     response = http.get(
-      'https://lh3.googleusercontent.com/a/AATXAJwPvZLCo7jLXyBbxOmhTnO6OQ2tyWdrf_LPUcXl=s96-c',
+      'https://c.daily.co/static/call-machine-object-bundle.js',
       {
         headers: {
           dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+
+    response = http.get('https://gs.daily.co/rooms/check/quicktalk/TEST-03', {
+      headers: {
+        dnt: '1',
+        'x-dailysessionid': 'eee01a53-6a89-4753-8a00-129529696d9b',
+        'sec-ch-ua':
+          '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"',
+      },
+    });
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+
+    response = http.options(
+      'https://gs.daily.co/rooms/check/quicktalk/TEST-03',
+      null,
+      {
+        headers: {
+          accept: '*/*',
+          'access-control-request-headers': 'x-dailysessionid',
+          'access-control-request-method': 'GET',
+          origin: 'https://youthful-shirley-3dacfb.netlify.app',
+          'sec-fetch-mode': 'cors',
+        },
+      },
+    );
+    check(response, {
+      'is status 200': ({ status }) => (status && status === 200) || undefined,
+    });
+    sleep(10.5);
 
     response = http.get(
-      'https://lh3.googleusercontent.com/a/AATXAJwKzKU4WG8b9gGjfcX_pMtys7HzqOW0CXwz2Gv1=s96-c',
+      'https://guarded-plains-83208.herokuapp.com/api/v1/quick_talks',
       {
         headers: {
+          accept: 'application/json, text/plain, */*',
           dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
+          'sec-ch-ua':
+            '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"macOS"',
         },
-      }
-    )
-
-    response = http.get(
-      'https://lh3.googleusercontent.com/a/AATXAJwnX_u_JqYs0d-xO6Royo0Rjf5XqUL6Ouyk4wco=s96-c',
-      {
-        headers: {
-          dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-
-    response = http.get(
-      'https://lh3.googleusercontent.com/a/AATXAJycDx_notTp4qQadS0TprbHhPtmicuYAqeSV8Go=s96-c',
-      {
-        headers: {
-          dnt: '1',
-          'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-        },
-      }
-    )
-  })
+      },
+    );
+  });
+  check(response, {
+    'is status 200': ({ status }) => (status && status === 200) || undefined,
+  });
 }
